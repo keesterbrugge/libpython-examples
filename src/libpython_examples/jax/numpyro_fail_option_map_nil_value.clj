@@ -4,7 +4,6 @@
    
 (require-python '[jax.numpy :as jnp])
 (require-python '[jax :refer [random]])
-; (require-python '[ax.scipy.special :refer [logsumexp]]) ; errors
 (require-python 'numpyro)
 (require-python '[numpyro.distributions :as dist])
 (require-python '[numpyro.infer :refer [MCMC, NUTS]])
@@ -164,47 +163,3 @@ Exception: java.lang.Exception: KeyError: 'y'
 
 ; now this works too
 (py. mcmc run (last new_rng_keys) {})
-
-
-
-
-
-(jnp/add (jnp/array [2 3 ]) 0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-(defn model_simple2 [{:keys [y ]}]
-  (let [a (numpyro/sample "a" (dist/Normal 0 3))]
-    (numpyro/sample "mu" (dist/Normal a 1) :obs y)))
-
-
-
-(def rng_key (py. random PRNGKey 0))
-
-(def new_rng_keys (py. random split rng_key))
-
-(def num_warmup 1000)
-
-(def num_samples 2000)
-
-(def kernel (NUTS model_simple2))
-
-(def mcmc (MCMC kernel num_warmup num_samples))
-
-(py. mcmc run (last new_rng_keys) {:y (jnp/array [0.6 0.7])})
-
-(py. mcmc print_summary)
-
-
