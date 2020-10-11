@@ -86,3 +86,12 @@ def model_simpler():
 ;; should do something similar DOES work. 
 ;; Am I doing something wrong?
 ;; 
+
+
+(py/import-as jax.numpy jnp)
+(py. jnp array [2 3]) ; works
+(jnp/array [2 3]) ; error
+
+(require-python '[jax.numpy :as jnp2])
+(py. jnp2 array [2 3]) ; error
+(jnp2/array [2 3]) ; works
