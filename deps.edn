@@ -1,0 +1,2 @@
+{:deps
+ {clj-python/libpython-clj {:mvn/version "1.46"}}}
